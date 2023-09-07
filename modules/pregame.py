@@ -39,6 +39,18 @@ class PregameCog(commands.Cog):
             await ctx.reply("Has entrat al joc.")
         return
 
+    @commands.command(aliases=['sortir'])
+    async def leave(self, ctx):
+        if self.utilities.get_config_item('status') != 'join':
+            await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
+            return
+        elif self.utilities.get_config_item('status') == 'on':
+            return
+        
+        if str(ctx.author.id) in self.utilities.get_config_item('players'):
+            self.utilities.remove_player(ctx.author.id)
+            await ctx.reply("Has sortit del joc.")
+
 
 #### TODO: when game starts, status switches to on
 

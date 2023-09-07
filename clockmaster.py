@@ -52,7 +52,6 @@ def load_config(file_path):
 async def on_ready():
     config = load_config('config/bot_config.json')
     bot.config = config
-    bot.owner_id = config['owner']
 
     print(f'\n\nLogged in as: {bot.user.name} - ID: {bot.user.id}\nPycord version: {discord.__version__}\n')
 

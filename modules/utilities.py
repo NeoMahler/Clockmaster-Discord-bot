@@ -26,6 +26,17 @@ class UtilitiesCog(commands.Cog):
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return
+    
+    def remove_player(self, player):
+        state = self.read_game_state()
+        del state['players'][str(player)]
+        with open("config/game_state.json", 'w') as f:
+            json.dump(state, f)
+        return
+    
+    @commands.command()
+    async def utilitiesping(self, ctx):
+        await ctx.reply(f"Pong! {round(self.bot.latency * 1000)}ms")
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))

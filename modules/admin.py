@@ -56,7 +56,13 @@ class AdminCog(commands.Cog):
     async def fjoin(self, ctx, player: discord.User):
         print(player)
         self.utilities.add_player(player.id)
-        await ctx.reply(f"<@{player.id}> ha entrat al joc.")
+        await ctx.reply(f"Has afegit <@{player.id}> al joc.")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def fleave(self, ctx, player: discord.User):
+        self.utilities.remove_player(player.id)
+        await ctx.reply(f"Has tret a <@{player.id}> del joc.")
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))
