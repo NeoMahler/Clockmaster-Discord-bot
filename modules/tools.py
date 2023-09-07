@@ -7,9 +7,8 @@ class ToolsCog(commands.Cog):
         self.bot = bot
     
     @commands.command()
-    async def ping(self, ctx):
-        print("Pong")
-        await ctx.send(f"Pong!")
+    async def hola(self, ctx):
+        await ctx.send(f"Hola!")
 
 def setup(bot):
     bot.add_cog(ToolsCog(bot))
