@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 import subprocess
 
@@ -8,6 +9,7 @@ import subprocess
 class AdminCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.utilities = self.bot.get_cog("UtilitiesCog")
 
     @commands.command()
     @commands.is_owner()
@@ -48,6 +50,13 @@ class AdminCog(commands.Cog):
             await ctx.send(f':scream: Error: {type(e).__name__} - {e}')
         else:
             await ctx.send('Module reloaded! :tada:')
+    
+    @commands.command()
+    @commands.is_owner()
+    async def fjoin(self, ctx, player: discord.User):
+        print(player)
+        self.utilities.add_player(player.id)
+        await ctx.reply(f"<@{player.id}> ha entrat al joc.")
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))
