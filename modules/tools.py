@@ -6,7 +6,7 @@ class ToolsCog(commands.Cog):
     
     @commands.command()
     async def hola(self, ctx):
-        await ctx.send(f"Hola!")
+        await ctx.reply(f"Hola!")
 
 def setup(bot):
     bot.add_cog(ToolsCog(bot))
