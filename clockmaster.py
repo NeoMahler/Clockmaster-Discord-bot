@@ -3,7 +3,9 @@ from discord.ext import commands
 
 from dotenv import load_dotenv
 
-import logging, sys, traceback, os
+import logging
+import os
+import json
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.ERROR)
@@ -25,7 +27,7 @@ def get_prefix(bot, message):
 
 
 # Modules to be loaded, following the folder.file format
-initial_extensions = ['modules.tools']
+initial_extensions = ['modules.tools', 'modules.pregame', 'modules.admin']
 
 intents = discord.Intents(messages=True, message_content=True, members=True)
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
@@ -37,8 +39,17 @@ if __name__ == '__main__':
     for extension in initial_extensions:
         bot.load_extension(extension)
 
+def load_config(file_path):
+    with open(file_path, 'r') as f:
+        config = json.load(f)
+    return config
+
 @bot.event
 async def on_ready():
+    config = load_config('config/bot_config.json')
+    bot.config = config
+    bot.owner_id = config['owner']
+
     print(f'\n\nLogged in as: {bot.user.name} - ID: {bot.user.id}\nPycord version: {discord.__version__}\n')
 
     # Changes our bots Playing Status. type=1(streaming) for a standard game you could remove type and url.
