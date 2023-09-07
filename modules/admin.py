@@ -50,6 +50,12 @@ class AdminCog(commands.Cog):
             await ctx.send(f':scream: Error: {type(e).__name__} - {e}')
         else:
             await ctx.send('Module reloaded! :tada:')
+
+    @commands.command()
+    @commands.is_owner()
+    async def list_cogs(self, ctx, player: discord.User):
+        self.utilities.remove_player(player.id)
+        await ctx.reply(f"Has tret a <@{player.id}> del joc.")
     
     @commands.command()
     @commands.is_owner()

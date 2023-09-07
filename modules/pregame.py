@@ -4,13 +4,14 @@ class PregameCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.utilities = self.bot.get_cog("UtilitiesCog")
+        self.controller = self.bot.get_cog("ControllerCog")
 
     @commands.command(aliases=['new', 'noujoc', 'nou'])
     async def newgame(self, ctx):
+        if self.utilities.get_config_item('status') == 'on':
+            return
         if self.utilities.get_config_item('status') != 'off':
             await ctx.reply("Ja hi ha un joc en curs. Utilitza !entrar per entrar al joc.")
-            return
-        elif self.utilities.get_config_item('status') == 'on':
             return
         
         self.utilities.modify_config_item('status', 'join')
@@ -26,10 +27,10 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['entrar'])
     async def join(self, ctx):
+        if self.utilities.get_config_item('status') == 'on':
+            return
         if self.utilities.get_config_item('status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
-            return
-        elif self.utilities.get_config_item('status') == 'on':
             return
         
         if str(ctx.author.id) in self.utilities.get_config_item('players'):
@@ -41,18 +42,20 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['sortir'])
     async def leave(self, ctx):
+        if self.utilities.get_config_item('status') == 'on':
+            return
         if self.utilities.get_config_item('status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
-            return
-        elif self.utilities.get_config_item('status') == 'on':
             return
         
         if str(ctx.author.id) in self.utilities.get_config_item('players'):
             self.utilities.remove_player(ctx.author.id)
             await ctx.reply("Has sortit del joc.")
 
-
-#### TODO: when game starts, status switches to on
+    @commands.command(aliases=['iniciar'])
+    async def start(self, ctx):
+        self.utilities.modify_config_item('status', 'on')
+        self.controller.game_setup()
 
 def setup(bot):
     bot.add_cog(PregameCog(bot))
