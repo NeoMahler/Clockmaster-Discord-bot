@@ -67,7 +67,7 @@ class PregameCog(commands.Cog):
         Starts the game by going to the setup phase.
         """
         self.utilities.modify_config_item('status', 'on')
-        self.controller.game_setup()
+        await self.controller.game_setup(ctx)
 
 def setup(bot):
     bot.add_cog(PregameCog(bot))

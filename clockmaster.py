@@ -34,7 +34,7 @@ initial_extensions = ['modules.utilities',
                       'modules.admin'
                       ]
 
-intents = discord.Intents(messages=True, message_content=True, members=True)
+intents = discord.Intents(messages=True, message_content=True, members=True, guilds=True)
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
 bot.remove_command('help')

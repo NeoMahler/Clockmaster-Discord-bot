@@ -5,15 +5,14 @@ class ControllerCog(commands.Cog):
         self.bot = bot
         self.utilities = self.bot.get_cog("UtilitiesCog")
     
-    def game_setup(self):
+    async def game_setup(self, ctx):
         """
         Sets up the game: gives out roles, demon bluffs, and goes to first night.
         """
         if self.utilities.get_config_item('status') == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
-            print(self.bot.config['game_channel'] + " " + str(channel))
-            # TODO: ping all joined players
-            channel.send("Comença el joc!")
+            all_pings = " ".join(self.utilities.get_players_pings(ctx))
+            await channel.send(f"{all_pings} Comença el joc!")
         return
 
 def setup(bot):

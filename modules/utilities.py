@@ -65,9 +65,29 @@ class UtilitiesCog(commands.Cog):
             json.dump(state, f)
         return
     
-    @commands.command()
-    async def utilitiesping(self, ctx):
-        await ctx.reply(f"Pong! {round(self.bot.latency * 1000)}ms")
+    def get_players_pings(self, ctx, players=[]):
+        """
+        Returns a list of pings for the players.
+
+        Parameters:
+            ctx (discord.ext.commands.Context): The context of the command.
+            players (list): A list of Discord user IDs.
+        """
+        pings = []
+        added_players = self.get_config_item("players")
+        print(f"All players: {str(added_players)}")
+
+        if players != []: # Create a list of players only for the specified user
+            for player in added_players:
+                print(player)
+                if player in players:
+                    user = ctx.guild.get_member(int(player))
+                    pings.append(user.mention)
+        else: # Create list for all players added to the game
+            for player in added_players:
+                user = ctx.guild.get_member(int(player))
+                pings.append(user.mention)
+        return pings
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))

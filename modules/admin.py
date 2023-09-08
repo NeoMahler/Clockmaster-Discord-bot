@@ -77,7 +77,6 @@ class AdminCog(commands.Cog):
         Parameters:
             player (discord.User): The user to add to the game.
         """
-        print(player)
         self.utilities.add_player(player.id)
         await ctx.reply(f"Has afegit <@{player.id}> al joc.")
     
