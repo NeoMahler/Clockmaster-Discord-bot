@@ -11,7 +11,7 @@ class ToolsCog(commands.Cog):
     
     @commands.command(aliases=['jugadors'])
     async def players(self, ctx):
-        players = self.utilities.get_players_names(ctx)
+        players = self.utilities.get_player_data(ctx, "username")
         status = self.utilities.get_state_item("status")
         if status == "join":
             await ctx.reply(f"Hi ha {len(players)} inscrits: **{', '.join(players)}**")

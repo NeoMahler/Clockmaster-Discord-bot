@@ -73,49 +73,42 @@ class UtilitiesCog(commands.Cog):
             json.dump(state, f)
         return
     
-    def get_players_pings(self, ctx, players=[]):
+    def get_player_data(self, ctx, type, players=[]):
         """
-        Returns a list of pings for the players.
+        Returns either the mention, username, display_name, or nickname of a player.
 
         Parameters:
             ctx (discord.ext.commands.Context): The context of the command.
+            type (str): The type of data to return.
             players (list): A list of Discord user IDs.
         """
-        pings = []
+        data = []
         added_players = self.get_state_item("players")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
                 if player in players:
                     user = ctx.guild.get_member(int(player))
-                    pings.append(user.mention)
+                    if type == "mention":
+                        data.append(user.mention)
+                    elif type == "username":
+                        data.append(user.name)
+                    elif type == "display_name":
+                        data.append(user.display_name)
+                    elif type == "nickname":
+                        data.append(user.nick)
         else: # Create list for all players added to the game
             for player in added_players:
                 user = ctx.guild.get_member(int(player))
-                pings.append(user.mention)
-        return pings
-    
-    def get_players_names(self, ctx, players=[]):
-        """
-        Returns a list of display_names of players.
-
-        Parameters:
-            ctx (discord.ext.commands.Context): The context of the command.
-            players (list): A list of Discord user IDs.
-        """
-        names = []
-        added_players = self.get_state_item("players")
-
-        if players != []: # Create a list of players only for the specified user
-            for player in added_players:
-                if player in players:
-                    user = ctx.guild.get_member(int(player))
-                    names.append(user.display_name)
-        else: # Create list for all players added to the game
-            for player in added_players:
-                user = ctx.guild.get_member(int(player))
-                names.append(user.display_name)
-        return names
+                if type == "mention":
+                    data.append(user.mention)
+                elif type == "username":
+                    data.append(user.name)
+                elif type == "display_name":
+                    data.append(user.display_name)
+                elif type == "nickname":
+                    data.append(user.nick)
+        return data
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
