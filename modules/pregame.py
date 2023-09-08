@@ -20,13 +20,13 @@ class PregameCog(commands.Cog):
         self.utilities.modify_config_item('status', 'join')
 
         game_role = self.bot.config['game_role']
-        user_id = ctx.author.id
+        user = ctx.author
         if str(ctx.channel.id) != self.bot.config['game_channel']: # Prevent games outside of the game channel
             await ctx.reply(f"Només pots iniciar un joc nou a <#{self.bot.config['game_channel']}>.")
             return
 
-        self.utilities.add_player(user_id)
-        await ctx.send(f"<@&{game_role}>, comença un nou joc! <@{user_id}>, t'he afegit automàticament a la llista de jugadors. La resta, feu !entrar per entrar al joc.")
+        self.utilities.add_player(user.id)
+        await ctx.send(f"<@&{game_role}>, comença un nou joc! <@{user.id}>, t'he afegit automàticament a la llista de jugadors. La resta, feu !entrar per entrar al joc.")
 
     @commands.command(aliases=['entrar'])
     async def join(self, ctx):
@@ -42,7 +42,7 @@ class PregameCog(commands.Cog):
         if str(ctx.author.id) in self.utilities.get_config_item('players'):
             await ctx.reply("Ja estàs inscrit al joc. La paciència és la mare de la ciència.")
         else:
-            self.utilities.add_player(ctx.author.id)
+            self.utilities.add_player(ctx.author)
             await ctx.reply("Has entrat al joc.")
         return
 
@@ -58,7 +58,7 @@ class PregameCog(commands.Cog):
             return
         
         if str(ctx.author.id) in self.utilities.get_config_item('players'):
-            self.utilities.remove_player(ctx.author.id)
+            self.utilities.remove_player(ctx.author)
             await ctx.reply("Has sortit del joc.")
 
     @commands.command(aliases=['iniciar'])

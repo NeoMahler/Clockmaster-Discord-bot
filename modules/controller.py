@@ -12,6 +12,7 @@ class ControllerCog(commands.Cog):
         if self.utilities.get_config_item('status') == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             print(self.bot.config['game_channel'] + " " + str(channel))
+            # TODO: ping all joined players
             channel.send("Comença el joc!")
         return
 

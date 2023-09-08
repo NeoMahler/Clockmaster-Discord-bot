@@ -148,7 +148,7 @@
             "flags": ["is_demon", "has_first_night_action", "has_nightly_action"]
         }
     },
-    "modes": {
+    "scripts": {
         "troublebrewing": {
             "name": {
                 "ca": "Trouble Brewing",

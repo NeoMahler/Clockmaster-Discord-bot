@@ -38,10 +38,15 @@ class UtilitiesCog(commands.Cog):
 
     def add_player(self, player):
         """
-        Adds a player to the game.
+        Adds a player to the game. It includes the user ID, username, and server-specific nickname.
+
+        Parameters:
+            player (discord.User): The user to add to the game.
         """
         state = self.read_game_state()
-        state['players'][str(player)] = {}
+        state['players'][str(player.id)] = {}
+        state['players'][str(player.id)]["username"] = player.name
+        state['players'][str(player.id)]["nickname"] = player.nick
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return
@@ -49,9 +54,12 @@ class UtilitiesCog(commands.Cog):
     def remove_player(self, player):
         """
         Removes a player from the game.
+
+        Parameters:
+            player (discord.User): The user to remove from the game.
         """
         state = self.read_game_state()
-        del state['players'][str(player)]
+        del state['players'][str(player.id)]
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return
