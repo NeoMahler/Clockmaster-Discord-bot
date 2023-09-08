@@ -47,6 +47,7 @@ class UtilitiesCog(commands.Cog):
         state['players'][str(player.id)] = {}
         state['players'][str(player.id)]["username"] = player.name
         state['players'][str(player.id)]["nickname"] = player.nick
+        state['players'][str(player.id)]["display_name"] = player.display_name
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return
