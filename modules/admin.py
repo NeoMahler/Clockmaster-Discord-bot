@@ -91,6 +91,15 @@ class AdminCog(commands.Cog):
         """
         self.utilities.remove_player(player.id)
         await ctx.reply(f"Has tret a <@{player.id}> del joc.")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def fend(self, ctx):
+        """
+        Forcefully ends the game.
+        """
+        self.utilities.clean_game_state() # Return game_state to starting value
+        await ctx.reply("Joc tancat a la força. Si era a mitja partida, no hi ha guanyadors.")
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))

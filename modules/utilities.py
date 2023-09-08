@@ -5,6 +5,14 @@ class UtilitiesCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
+    def clean_game_state(self):
+        """
+        Cleans the game_state.json file.
+        """
+        starting_dictionary = {"players": {}, "day": {}, "night": {}, "status": "off"}
+        with open("config/game_state.json", 'w') as f:
+            json.dump(starting_dictionary, f)
+
     def read_game_state(self):
         """
         Reads the game_state.json file. Returns the entire dictionary.
@@ -75,11 +83,9 @@ class UtilitiesCog(commands.Cog):
         """
         pings = []
         added_players = self.get_config_item("players")
-        print(f"All players: {str(added_players)}")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
-                print(player)
                 if player in players:
                     user = ctx.guild.get_member(int(player))
                     pings.append(user.mention)
