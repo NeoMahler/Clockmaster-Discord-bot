@@ -154,7 +154,7 @@
                 "ca": "Trouble Brewing",
                 "en": "Trouble Brewing"
             },
-            "roles": ["washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "undertaker", "monk", "ravenkeeper", "virgin", "slayer", "soldier", "mayor", "butler", "recluse", "saint", "poisoner", "spy", "scarletwoman", "baron", "imp"],
+            "roles": ["washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "undertaker", "monk", "ravenkeeper", "virgin", "slayer", "soldier", "mayor", "butler", "recluse", "saint", "poisoner", "spy", "scarletwoman", "baron", "imp"]
         }
     }
 }
