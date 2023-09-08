@@ -1,0 +1,160 @@
+{
+    "roles": {
+        "washerwoman": {
+            "name": {
+                "ca": "Bugadera",
+                "en": "Washerwoman"
+            },
+            "flags": ["is_village", "has_first_night_action"]
+        },
+        "librarian": {
+            "name": {
+                "ca": "Bibliotecari",
+                "en": "Librarian"
+            },
+            "flags": ["is_village", "has_first_night_action"]
+        },
+        "investigator": {
+            "name": {
+                "ca": "Investigadora",
+                "en": "Investigator"
+            },
+            "flags": ["is_village", "has_first_night_action"]
+        },
+        "chef": {
+            "name": {
+                "ca": "Xef",
+                "en": "Chef"
+            },
+            "flags": ["is_village", "has_first_night_action"]
+        },
+        "empath": {
+            "name": {
+                "ca": "Empàtica",
+                "en": "Empath"
+            },
+            "flags": ["is_village", "has_first_night_action", "has_nightly_action"]
+        },
+        "fortuneteller": {
+            "name": {
+                "ca": "Vident",
+                "en": "Fortune Teller"
+            },
+            "flags": ["is_village", "has_first_night_action", "has_nightly_action"]
+        },
+        "undertaker": {
+            "name": {
+                "ca": "Enterramorts",
+                "en": "Undertaker"
+            },
+            "flags": ["is_village", "has_nightly_action"]
+        },
+        "monk": {
+            "name": {
+                "ca": "Monjo",
+                "en": "Monk"
+            },
+            "flags": ["is_village", "has_nightly_action"]
+        },
+        "ravenkeeper": {
+            "name": {
+                "ca": "Ocellaire",
+                "en": "Ravenkeeper"
+            },
+            "flags": ["is_village", "has_nightly_action"]
+        },
+        "virgin": {
+            "name": {
+                "ca": "Donzella",
+                "en": "Virgin"
+            },
+            "flags": ["is_village"]
+        },
+        "slayer": {
+            "name": {
+                "ca": "Botxí",
+                "en": "Slayer"
+            },
+            "flags": ["is_village"]
+        },
+        "soldier": {
+            "name": {
+                "ca": "Soldat",
+                "en": "Soldier"
+            },
+            "flags": ["is_village"]
+        },
+        "mayor": {
+            "name": {
+                "ca": "Alcalde",
+                "en": "Mayor"
+            },
+            "flags": ["is_village"]
+        },
+        "butler": {
+            "name": {
+                "ca": "Majordom",
+                "en": "Butler"
+            },
+            "flags": ["is_outsider", "has_first_night_action", "has_nightly_action"]
+        },
+        "recluse": {
+            "name": {
+                "ca": "Ermitana",
+                "en": "Recluse"
+            },
+            "flags": ["is_outsider", "has_first_night_action", "has_nightly_action"]
+        },
+        "saint": {
+            "name": {
+                "ca": "Sant",
+                "en": "Saint"
+            },
+            "flags": ["is_outsider"]
+        },
+        "poisoner": {
+            "name": {
+                "ca": "Enverinador",
+                "en": "Poisoner"
+            },
+            "flags": ["is_minion", "has_first_night_action", "has_nightly_action"]
+        },
+        "spy": {
+            "name": {
+                "ca": "Espia",
+                "en": "Spy"
+            },
+            "flags": ["is_minion", "has_first_night_action", "has_nightly_action"]
+        },
+        "scarletwoman": {
+            "name": {
+                "ca": "Dominatrix",
+                "en": "Scarlet Woman"
+            },
+            "flags": ["is_minion"]
+        },
+        "baron": {
+            "name": {
+                "ca": "Baronessa",
+                "en": "Baron"
+            },
+            "flags": ["is_minion"]
+        },
+        "imp": {
+            "name": {
+                "ca": "Diabló",
+                "en": "Imp"
+            },
+            "flags": ["is_demon", "has_first_night_action", "has_nightly_action"]
+        }
+    },
+    "modes": {
+        "troublebrewing": {
+            "name": {
+                "ca": "Trouble Brewing",
+                "en": "Trouble Brewing"
+            },
+            "roles": ["washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "undertaker", "monk", "ravenkeeper", "virgin", "slayer", "soldier", "mayor", "butler", "recluse", "saint", "poisoner", "spy", "scarletwoman", "baron", "imp"],
+        }
+    }
+}
