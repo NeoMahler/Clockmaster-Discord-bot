@@ -49,10 +49,19 @@ def load_config(file_path):
         config = json.load(f)
     return config
 
+def setup_game_status():
+    starting_dictionary = {"players": {}, "day": {}, "night": {}, "status": "off"}
+    with open("config/game_state.json", 'w') as f:
+        json.dump(starting_dictionary, f)
+
 @bot.event
 async def on_ready():
     config = load_config('config/bot_config.json')
     bot.config = config
+
+    if not os.path.exists("config/game_state.json"):
+        print("No config/game_state.json file found. Creating one...")
+        setup_game_status()
 
     print(f'\n\nLogged in as: {bot.user.name} - ID: {bot.user.id}\nPycord version: {discord.__version__}\n')
 
