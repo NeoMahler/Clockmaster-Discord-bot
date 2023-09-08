@@ -94,6 +94,28 @@ class UtilitiesCog(commands.Cog):
                 user = ctx.guild.get_member(int(player))
                 pings.append(user.mention)
         return pings
+    
+    def get_players_names(self, ctx, players=[]):
+        """
+        Returns a list of display_names of players.
+
+        Parameters:
+            ctx (discord.ext.commands.Context): The context of the command.
+            players (list): A list of Discord user IDs.
+        """
+        names = []
+        added_players = self.get_config_item("players")
+
+        if players != []: # Create a list of players only for the specified user
+            for player in added_players:
+                if player in players:
+                    user = ctx.guild.get_member(int(player))
+                    names.append(user.display_name)
+        else: # Create list for all players added to the game
+            for player in added_players:
+                user = ctx.guild.get_member(int(player))
+                names.append(user.display_name)
+        return names
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
