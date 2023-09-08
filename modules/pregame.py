@@ -25,7 +25,7 @@ class PregameCog(commands.Cog):
             await ctx.reply(f"Només pots iniciar un joc nou a <#{self.bot.config['game_channel']}>.")
             return
 
-        self.utilities.add_player(user.id)
+        self.utilities.add_player(user)
         await ctx.send(f"<@&{game_role}>, comença un nou joc! <@{user.id}>, t'he afegit automàticament a la llista de jugadors. La resta, feu !entrar per entrar al joc.")
 
     @commands.command(aliases=['entrar'])
