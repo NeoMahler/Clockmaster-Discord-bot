@@ -77,7 +77,7 @@ class AdminCog(commands.Cog):
         Parameters:
             player (discord.User): The user to add to the game.
         """
-        self.utilities.add_player(player.id)
+        self.utilities.add_player(player)
         await ctx.reply(f"Has afegit <@{player.id}> al joc.")
     
     @commands.command()
@@ -89,7 +89,7 @@ class AdminCog(commands.Cog):
         Parameters:
             player (discord.User): The user to remove from the game.
         """
-        self.utilities.remove_player(player.id)
+        self.utilities.remove_player(player)
         await ctx.reply(f"Has tret a <@{player.id}> del joc.")
     
     @commands.command(aliases=['fstop'])
