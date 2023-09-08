@@ -89,26 +89,32 @@ class UtilitiesCog(commands.Cog):
             for player in added_players:
                 if player in players:
                     user = ctx.guild.get_member(int(player))
-                    if type == "mention":
-                        data.append(user.mention)
-                    elif type == "username":
-                        data.append(user.name)
-                    elif type == "display_name":
-                        data.append(user.display_name)
-                    elif type == "nickname":
-                        data.append(user.nick)
+                    data.append(self.sort_player_info(type, user))
         else: # Create list for all players added to the game
             for player in added_players:
                 user = ctx.guild.get_member(int(player))
-                if type == "mention":
-                    data.append(user.mention)
-                elif type == "username":
-                    data.append(user.name)
-                elif type == "display_name":
-                    data.append(user.display_name)
-                elif type == "nickname":
-                    data.append(user.nick)
+                data.append(self.sort_player_info(type, user))
         return data
+    
+    def sort_player_info(self, type, user):
+        """
+        Sorts the player information based on the given type.
+
+        Parameters:
+            type (str): The type of information to sort. Valid values are "mention", "username", "display_name", and "nickname".
+            user (User): The user object containing the player information.
+        """
+        if type == "mention":
+            return user.mention
+        elif type == "username":
+            return user.name
+        elif type == "display_name":
+            return user.display_name
+        elif type == "nickname":
+            if user.nick == None:
+                return user.display_name
+            else:
+                return user.nick    
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
