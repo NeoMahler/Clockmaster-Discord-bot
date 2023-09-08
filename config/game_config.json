@@ -72,7 +72,7 @@
         },
         "slayer": {
             "name": {
-                "ca": "Botxí",
+                "ca": "Caçador",
                 "en": "Slayer"
             },
             "flags": ["is_village"]
@@ -128,14 +128,14 @@
         },
         "scarletwoman": {
             "name": {
-                "ca": "Dominatrix",
+                "ca": "Dona Escarlata",
                 "en": "Scarlet Woman"
             },
             "flags": ["is_minion"]
         },
         "baron": {
             "name": {
-                "ca": "Baronessa",
+                "ca": "Baró",
                 "en": "Baron"
             },
             "flags": ["is_minion"]
