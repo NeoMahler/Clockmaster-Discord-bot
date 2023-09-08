@@ -161,3 +161,4 @@ cython_debug/
 
 # Clockmaster-specific stuff
 bot_config.json
+game_state.json
