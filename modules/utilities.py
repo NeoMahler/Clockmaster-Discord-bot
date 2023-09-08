@@ -6,21 +6,40 @@ class UtilitiesCog(commands.Cog):
         self.bot = bot
     
     def read_game_state(self):
+        """
+        Reads the game_state.json file. Returns the entire dictionary.
+        """
         with open("config/game_state.json", 'r') as f:
             state = json.load(f)
         return state
 
     def get_config_item(self, key):
+        """
+        Returns the value of a config item.
+
+        Parameters:
+            key (str): The name of the config item.
+        """
         state = self.read_game_state()
         return state[key]
     
     def modify_config_item(self, key, value):
+        """
+        Modifies a config item.
+        
+        Parameters:
+            key (str): The name of the config item.
+            value (str): The new value of the config item.
+        """
         state = self.read_game_state()
         state[key] = value
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
 
     def add_player(self, player):
+        """
+        Adds a player to the game.
+        """
         state = self.read_game_state()
         state['players'][str(player)] = {}
         with open("config/game_state.json", 'w') as f:
@@ -28,6 +47,9 @@ class UtilitiesCog(commands.Cog):
         return
     
     def remove_player(self, player):
+        """
+        Removes a player from the game.
+        """
         state = self.read_game_state()
         del state['players'][str(player)]
         with open("config/game_state.json", 'w') as f:

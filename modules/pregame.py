@@ -8,6 +8,9 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['new', 'noujoc', 'nou'])
     async def newgame(self, ctx):
+        """
+        Launches a new game.
+        """
         if self.utilities.get_config_item('status') == 'on':
             return
         if self.utilities.get_config_item('status') != 'off':
@@ -27,6 +30,9 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['entrar'])
     async def join(self, ctx):
+        """
+        Adds the user to the game.
+        """
         if self.utilities.get_config_item('status') == 'on':
             return
         if self.utilities.get_config_item('status') != 'join':
@@ -42,6 +48,9 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['sortir'])
     async def leave(self, ctx):
+        """
+        Removes the user from the game.
+        """
         if self.utilities.get_config_item('status') == 'on':
             return
         if self.utilities.get_config_item('status') != 'join':
@@ -54,6 +63,9 @@ class PregameCog(commands.Cog):
 
     @commands.command(aliases=['iniciar'])
     async def start(self, ctx):
+        """
+        Starts the game by going to the setup phase.
+        """
         self.utilities.modify_config_item('status', 'on')
         self.controller.game_setup()
 

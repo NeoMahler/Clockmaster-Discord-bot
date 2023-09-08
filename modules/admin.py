@@ -14,12 +14,21 @@ class AdminCog(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def update(self, ctx):
+        """
+        Pulls the lastest version from GitHub.
+        """
         output = subprocess.check_output("git pull", shell=True)
         await ctx.send("Pulling latest version from GitHub: ```" + str(output) + "``` Remember to use the reload command for the changes to take effect.")
 
     @commands.command()
     @commands.is_owner()
     async def load(self, ctx, cog):
+        """
+        Loads an unloaded module.
+
+        Parameters:
+            cog (str): The name of the module to load
+        """
         module = "modules." + cog
         try:
             self.bot.load_extension(module)
@@ -31,6 +40,12 @@ class AdminCog(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def unload(self, ctx, cog):
+        """
+        Unloads a loaded module.
+        
+        Parameters:
+            cog (str): The name of the module to unload
+        """
         module = "modules." + cog
         try:
             self.bot.unload_extension(module)
@@ -42,6 +57,12 @@ class AdminCog(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def reload(self, ctx, cog):
+        """
+        Reloads a module.
+        
+        Parameters:
+            cog (str): The name of the module to reload
+        """
         module = "modules." + cog
         try:
             self.bot.unload_extension(module)
@@ -50,16 +71,16 @@ class AdminCog(commands.Cog):
             await ctx.send(f':scream: Error: {type(e).__name__} - {e}')
         else:
             await ctx.send('Module reloaded! :tada:')
-
-    @commands.command()
-    @commands.is_owner()
-    async def list_cogs(self, ctx, player: discord.User):
-        self.utilities.remove_player(player.id)
-        await ctx.reply(f"Has tret a <@{player.id}> del joc.")
     
     @commands.command()
     @commands.is_owner()
     async def fjoin(self, ctx, player: discord.User):
+        """
+        Forcefully adds a user to the game.
+        
+        Parameters:
+            player (discord.User): The user to add to the game.
+        """
         print(player)
         self.utilities.add_player(player.id)
         await ctx.reply(f"Has afegit <@{player.id}> al joc.")
@@ -67,6 +88,12 @@ class AdminCog(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def fleave(self, ctx, player: discord.User):
+        """
+        Forcefully removes a user from the game.
+        
+        Parameters:
+            player (discord.User): The user to remove from the game.
+        """
         self.utilities.remove_player(player.id)
         await ctx.reply(f"Has tret a <@{player.id}> del joc.")
 
