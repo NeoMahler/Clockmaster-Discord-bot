@@ -66,6 +66,11 @@ class PregameCog(commands.Cog):
         """
         Starts the game by going to the setup phase.
         """
+        players = self.utilities.get_state_item('players')
+        if len(players) < 5:
+            await ctx.reply("Hi ha menys de 5 jugadors.")
+            #await ctx.reply("Hi ha d'haver almenys 5 jugadors.")
+            #return
         self.utilities.modify_state_item('status', 'on')
         await self.controller.game_setup(ctx)
 
