@@ -21,7 +21,7 @@ class UtilitiesCog(commands.Cog):
             state = json.load(f)
         return state
 
-    def get_config_item(self, key):
+    def get_state_item(self, key):
         """
         Returns the value of a config item.
 
@@ -31,7 +31,7 @@ class UtilitiesCog(commands.Cog):
         state = self.read_game_state()
         return state[key]
     
-    def modify_config_item(self, key, value):
+    def modify_state_item(self, key, value):
         """
         Modifies a config item.
         
@@ -82,7 +82,7 @@ class UtilitiesCog(commands.Cog):
             players (list): A list of Discord user IDs.
         """
         pings = []
-        added_players = self.get_config_item("players")
+        added_players = self.get_state_item("players")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
@@ -104,7 +104,7 @@ class UtilitiesCog(commands.Cog):
             players (list): A list of Discord user IDs.
         """
         names = []
-        added_players = self.get_config_item("players")
+        added_players = self.get_state_item("players")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:

@@ -11,13 +11,13 @@ class PregameCog(commands.Cog):
         """
         Launches a new game.
         """
-        if self.utilities.get_config_item('status') == 'on':
+        if self.utilities.get_state_item('status') == 'on':
             return
-        if self.utilities.get_config_item('status') != 'off':
+        if self.utilities.get_state_item('status') != 'off':
             await ctx.reply("Ja hi ha un joc en curs. Utilitza !entrar per entrar al joc.")
             return
         
-        self.utilities.modify_config_item('status', 'join')
+        self.utilities.modify_state_item('status', 'join')
 
         game_role = self.bot.config['game_role']
         user = ctx.author
@@ -33,13 +33,13 @@ class PregameCog(commands.Cog):
         """
         Adds the user to the game.
         """
-        if self.utilities.get_config_item('status') == 'on':
+        if self.utilities.get_state_item('status') == 'on':
             return
-        if self.utilities.get_config_item('status') != 'join':
+        if self.utilities.get_state_item('status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
             return
         
-        if str(ctx.author.id) in self.utilities.get_config_item('players'):
+        if str(ctx.author.id) in self.utilities.get_state_item('players'):
             await ctx.reply("Ja estàs inscrit al joc. La paciència és la mare de la ciència.")
         else:
             self.utilities.add_player(ctx.author)
@@ -51,13 +51,13 @@ class PregameCog(commands.Cog):
         """
         Removes the user from the game.
         """
-        if self.utilities.get_config_item('status') == 'on':
+        if self.utilities.get_state_item('status') == 'on':
             return
-        if self.utilities.get_config_item('status') != 'join':
+        if self.utilities.get_state_item('status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
             return
         
-        if str(ctx.author.id) in self.utilities.get_config_item('players'):
+        if str(ctx.author.id) in self.utilities.get_state_item('players'):
             self.utilities.remove_player(ctx.author)
             await ctx.reply("Has sortit del joc.")
 
@@ -66,7 +66,7 @@ class PregameCog(commands.Cog):
         """
         Starts the game by going to the setup phase.
         """
-        self.utilities.modify_config_item('status', 'on')
+        self.utilities.modify_state_item('status', 'on')
         await self.controller.game_setup(ctx)
 
 def setup(bot):
