@@ -92,7 +92,7 @@ class AdminCog(commands.Cog):
         self.utilities.remove_player(player.id)
         await ctx.reply(f"Has tret a <@{player.id}> del joc.")
     
-    @commands.command()
+    @commands.command(aliases=['fstop'])
     @commands.is_owner()
     async def fend(self, ctx):
         """
