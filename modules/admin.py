@@ -121,5 +121,18 @@ class AdminCog(commands.Cog):
         await ctx.reply(f"Has afegit un jugador fantasma {random_id} al joc.")
         return
 
+    @commands.command()
+    @commands.is_owner()
+    async def fstatus(self, ctx, arg = "0"):
+        """
+        Forcefully changes the status of the game. Accepted values: on, join, off.
+        """
+        valid_status = ['on', 'join', 'off']
+        if arg not in valid_status:
+            await ctx.reply("Status invàlid. Només pot ser `on`, `join` i `off`.")
+            return
+        self.utilities.modify_state_item('status', arg)
+        await ctx.reply(f"Status del joc modificat a {arg}.")
+
 def setup(bot):
     bot.add_cog(AdminCog(bot))
