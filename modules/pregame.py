@@ -11,9 +11,9 @@ class PregameCog(commands.Cog):
         """
         Launches a new game.
         """
-        if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             return
-        if self.utilities.get_config_item("config/game_state.json", ['status']) != 'off':
+        if self.utilities.get_config_item("config/game_state.json", 'status') != 'off':
             await ctx.reply("Ja hi ha un joc en curs. Utilitza !entrar per entrar al joc.")
             return
         
@@ -33,13 +33,13 @@ class PregameCog(commands.Cog):
         """
         Adds the user to the game.
         """
-        if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             return
-        if self.utilities.get_config_item("config/game_state.json", ['status']) != 'join':
+        if self.utilities.get_config_item("config/game_state.json", 'status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
             return
         
-        if str(ctx.author.id) in self.utilities.get_config_item("config/game_state.json", ['players']):
+        if str(ctx.author.id) in self.utilities.get_config_item("config/game_state.json", 'players'):
             await ctx.reply("Ja estàs inscrit al joc. La paciència és la mare de la ciència.")
         else:
             self.utilities.add_player(ctx.author)
@@ -51,13 +51,13 @@ class PregameCog(commands.Cog):
         """
         Removes the user from the game.
         """
-        if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             return
-        if self.utilities.get_config_item("config/game_state.json", ['status']) != 'join':
+        if self.utilities.get_config_item("config/game_state.json", 'status') != 'join':
             await ctx.reply("No hi ha cap joc en curs; utilitza !nou per iniciar un nou joc.")
             return
         
-        if str(ctx.author.id) in self.utilities.get_config_item("config/game_state.json", ['players']):
+        if str(ctx.author.id) in self.utilities.get_config_item("config/game_state.json", 'players'):
             self.utilities.remove_player(ctx.author)
             await ctx.reply("Has sortit del joc.")
 
@@ -67,7 +67,7 @@ class PregameCog(commands.Cog):
         """
         Starts the game by going to the setup phase.
         """
-        players = self.utilities.get_config_item("config/game_state.json", ['players'])
+        players = self.utilities.get_config_item("config/game_state.json", 'players')
         if len(players) < 5:
             await ctx.reply("Hi ha menys de 5 jugadors, el joc no pot començar.")
             return

@@ -12,7 +12,7 @@ class ToolsCog(commands.Cog):
     @commands.command(aliases=['jugadors'])
     async def players(self, ctx):
         players = self.utilities.get_player_data(ctx, "nickname")
-        status = self.utilities.get_config_item("config/game_state.json", ["status"])
+        status = self.utilities.get_config_item("config/game_state.json", "status")
         if status == "join":
             await ctx.reply(f"Hi ha {len(players)} inscrits: **{', '.join(players)}**")
         elif status == "off":

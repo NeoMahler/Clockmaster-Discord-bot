@@ -17,7 +17,7 @@ class ControllerCog(commands.Cog):
 
         # Choose script based on player count
         good_scripts = []
-        scripts = self.utilities.get_config_item("config/game_config.json", ["scripts"])
+        scripts = self.utilities.get_config_item("config/game_config.json", "scripts")
         for script in scripts:
             if scripts[script]["min_players"] <= player_num:
                 good_scripts.append(script)
@@ -26,10 +26,14 @@ class ControllerCog(commands.Cog):
         await ctx.send("Guió escollit: " + script_name)
 
         # Update game state
-        if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
             await channel.send(f"{all_pings} Comença el joc!")
+
+        # Choose characters
+        role_count = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/role_counts/{str(player_num)}")
+        print(role_count)
 
         # TODO:
         # - choose characters (be mindful of player count for team proportions)

@@ -109,7 +109,7 @@ class AdminCog(commands.Cog):
         """
         Adds a non-existing user to the game, for debugging purposes.
         """
-        random_id = random.randint(0, 999999)
+        random_id = random.randint(111111, 999999)
         state = self.utilities.read_config_file("config/game_state.json")
         state['players'][str(random_id)] = {}
         state['players'][str(random_id)]["username"] = "DEBUG"

@@ -1,5 +1,6 @@
 from discord.ext import commands
 import json
+import dpath
 
 class UtilitiesCog(commands.Cog):
     def __init__(self, bot):
@@ -30,20 +31,14 @@ class UtilitiesCog(commands.Cog):
     
         Parameters:
             file (str): The full path to the config file.
-            keys (list): A list of keys representing the path to the desired item.
+            keys (string): A string of keys separated by /.
     
         Returns:
             The value of the config item if found, or None if not found.
         """
-        key = keys[0]
-        dictionary = self.read_config_file(file)
-        if key in dictionary:
-            if len(keys) == 1:
-                return dictionary[key]
-            elif isinstance(dictionary[key], dict):
-                return self.get_config_item(dictionary[key], keys[1:])
-    
-        return None
+        dict = self.read_config_file(file)
+        value = dpath.get(dict, keys)
+        return value
 
     def modify_state_item(self, key, value):
         """
@@ -97,7 +92,7 @@ class UtilitiesCog(commands.Cog):
             players (list): A list of Discord user IDs.
         """
         data = []
-        added_players = self.get_config_item("config/game_state.json", ["players"])
+        added_players = self.get_config_item("config/game_state.json", "players")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
@@ -112,6 +107,7 @@ class UtilitiesCog(commands.Cog):
                 if len(player) == 6: # Ghost players have 6-digit IDs
                     data.append("DEBUG")
                 else:
+                    print(f"PLAYER {player}")
                     user = ctx.guild.get_member(int(player))
                     data.append(self.sort_player_info(type, user))
         return data
