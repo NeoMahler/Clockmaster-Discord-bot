@@ -1,4 +1,5 @@
 from discord.ext import commands
+import random
 
 class ControllerCog(commands.Cog):
     def __init__(self, bot):
@@ -9,21 +10,27 @@ class ControllerCog(commands.Cog):
         """
         Sets up the game: gives out roles, demon bluffs, and goes to first night.
         """
+        # Get player count
+        players = self.utilities.get_player_data(ctx, "username")
+        player_num = len(players)
+        print(f"Hi ha {player_num} jugadors.")
+
+        # Choose script based on player count
+        good_scripts = []
+        scripts = self.utilities.get_config_item("config/game_config.json", ["scripts"])
+        for script in scripts:
+            if scripts[script]["min_players"] <= player_num:
+                good_scripts.append(script)
+        chosen_script = random.choice(good_scripts)
+        await ctx.send("Guió escollit: " + chosen_script)
+
         # Update game state
-        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
+        if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
             await channel.send(f"{all_pings} Comença el joc!")
 
-        # Get player count
-        players = self.utilities.get_player_data(ctx, "username")
-        player_num = len(players)
-        print(f"There are {player_num} players.")
-
-        # Choose script based on player count
-
         # TODO:
-        # - choose script
         # - choose characters (be mindful of player count for team proportions)
         # - give out characters
 

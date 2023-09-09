@@ -97,7 +97,7 @@ class UtilitiesCog(commands.Cog):
             players (list): A list of Discord user IDs.
         """
         data = []
-        added_players = self.get_config_item("config/game_state.json", "players")
+        added_players = self.get_config_item("config/game_state.json", ["players"])
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
