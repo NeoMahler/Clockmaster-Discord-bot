@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import subprocess
+import random
+import json
 
 class AdminCog(commands.Cog):
     def __init__(self, bot):
@@ -100,6 +102,24 @@ class AdminCog(commands.Cog):
         """
         self.utilities.clean_game_state() # Return game_state to starting value
         await ctx.reply("Joc tancat a la força. Si era a mitja partida, no hi ha guanyadors.")
+
+    @commands.command()
+    @commands.is_owner()
+    async def fjoin_ghost(self, ctx):
+        """
+        Adds a non-existing user to the game, for debugging purposes.
+        """
+        random_id = random.randint(0, 999999)
+        state = self.utilities.read_config_file("config/game_state.json")
+        state['players'][str(random_id)] = {}
+        state['players'][str(random_id)]["username"] = "DEBUG"
+        state['players'][str(random_id)]["nickname"] = "DEBUG"
+        state['players'][str(random_id)]["display_name"] = "DEBUG"
+        with open("config/game_state.json", 'w') as f:
+            json.dump(state, f)
+
+        await ctx.reply(f"Has afegit un jugador fantasma {random_id} al joc.")
+        return
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))
