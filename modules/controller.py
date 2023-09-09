@@ -9,7 +9,7 @@ class ControllerCog(commands.Cog):
         """
         Sets up the game: gives out roles, demon bluffs, and goes to first night.
         """
-        if self.utilities.get_state_item('status') == 'on':
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
             await channel.send(f"{all_pings} Comença el joc!")

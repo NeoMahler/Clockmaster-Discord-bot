@@ -13,22 +13,26 @@ class UtilitiesCog(commands.Cog):
         with open("config/game_state.json", 'w') as f:
             json.dump(starting_dictionary, f)
 
-    def read_game_state(self):
+    def read_config_file(self, file):
         """
-        Reads the game_state.json file. Returns the entire dictionary.
+        Reads the provided JSON config file. Returns the entire dictionary.
+
+        Parameters:
+            file (str): The full path of the config file
         """
-        with open("config/game_state.json", 'r') as f:
+        with open(file, 'r') as f:
             state = json.load(f)
         return state
 
-    def get_state_item(self, key):
+    def get_config_item(self, file, key):
         """
         Returns the value of a config item.
 
         Parameters:
+            file (str): The full path of the config file
             key (str): The name of the config item.
         """
-        state = self.read_game_state()
+        state = self.read_config_file(file)
         return state[key]
     
     def modify_state_item(self, key, value):
@@ -39,7 +43,7 @@ class UtilitiesCog(commands.Cog):
             key (str): The name of the config item.
             value (str): The new value of the config item.
         """
-        state = self.read_game_state()
+        state = self.read_config_file("config/game_state.json")
         state[key] = value
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
@@ -51,7 +55,7 @@ class UtilitiesCog(commands.Cog):
         Parameters:
             player (discord.User): The user to add to the game.
         """
-        state = self.read_game_state()
+        state = self.read_config_file("config/game_state.json")
         state['players'][str(player.id)] = {}
         state['players'][str(player.id)]["username"] = player.name
         state['players'][str(player.id)]["nickname"] = player.nick
@@ -67,7 +71,7 @@ class UtilitiesCog(commands.Cog):
         Parameters:
             player (discord.User): The user to remove from the game.
         """
-        state = self.read_game_state()
+        state = self.read_config_file("config/game_state.json")
         del state['players'][str(player.id)]
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
@@ -83,7 +87,7 @@ class UtilitiesCog(commands.Cog):
             players (list): A list of Discord user IDs.
         """
         data = []
-        added_players = self.get_state_item("players")
+        added_players = self.get_config_item("config/game_state.json", "players")
 
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
@@ -127,7 +131,7 @@ class UtilitiesCog(commands.Cog):
         Returns:
             int: The ID of the player.
         """
-        state = self.read_game_state()
+        state = self.read_config_file("config/game_state.json")
         players = state["players"]
         print(players.items())
         for player_id, player_data in players.items():
