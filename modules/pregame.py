@@ -62,6 +62,7 @@ class PregameCog(commands.Cog):
             await ctx.reply("Has sortit del joc.")
 
     @commands.command(aliases=['iniciar'])
+    @commands.is_owner()
     async def start(self, ctx):
         """
         Starts the game by going to the setup phase.

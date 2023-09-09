@@ -13,7 +13,16 @@ class ControllerCog(commands.Cog):
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
             await channel.send(f"{all_pings} Comença el joc!")
-        return
+
+        players = self.utilities.get_player_data(ctx, "username")
+        player_num = len(players)
+        print(f"There are {player_num} players.")
+
+        # TODO:
+        # - get number of players
+        # - choose script
+        # - choose characters (be mindful of player count for team proportions)
+        # - give out characters
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))

@@ -114,7 +114,28 @@ class UtilitiesCog(commands.Cog):
             if user.nick == None:
                 return user.display_name
             else:
-                return user.nick    
+                return user.nick
+
+    def get_id_from_data(self, data, type):
+        """
+        Returns the ID of a player based on the given type.
+    
+        Parameters:
+            data (list): The username, display_name, or nickname of a player.
+            type (str): The type of information to sort that data is.
+    
+        Returns:
+            int: The ID of the player.
+        """
+        state = self.read_game_state()
+        players = state["players"]
+        print(players.items())
+        for player_id, player_data in players.items():
+            if player_data[type] == data:
+                return int(player_id)
+    
+        return None  # Return None if player is not found    
+
  
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
