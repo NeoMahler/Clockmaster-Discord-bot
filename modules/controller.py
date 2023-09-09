@@ -9,17 +9,20 @@ class ControllerCog(commands.Cog):
         """
         Sets up the game: gives out roles, demon bluffs, and goes to first night.
         """
+        # Update game state
         if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
             channel = self.bot.get_channel(int(self.bot.config['game_channel']))
             all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
             await channel.send(f"{all_pings} Comença el joc!")
 
+        # Get player count
         players = self.utilities.get_player_data(ctx, "username")
         player_num = len(players)
         print(f"There are {player_num} players.")
 
+        # Choose script based on player count
+
         # TODO:
-        # - get number of players
         # - choose script
         # - choose characters (be mindful of player count for team proportions)
         # - give out characters

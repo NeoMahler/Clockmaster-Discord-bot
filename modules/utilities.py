@@ -24,17 +24,27 @@ class UtilitiesCog(commands.Cog):
             state = json.load(f)
         return state
 
-    def get_config_item(self, file, key):
+    def get_config_item(self, file, keys):
         """
-        Returns the value of a config item.
-
-        Parameters:
-            file (str): The full path of the config file
-            key (str): The name of the config item.
-        """
-        state = self.read_config_file(file)
-        return state[key]
+        Returns the value of a config item in a dictionary that is multiple levels deep.
     
+        Parameters:
+            file (str): The full path to the config file.
+            keys (list): A list of keys representing the path to the desired item.
+    
+        Returns:
+            The value of the config item if found, or None if not found.
+        """
+        key = keys[0]
+        dictionary = self.read_config_file(file)
+        if key in dictionary:
+            if len(keys) == 1:
+                return dictionary[key]
+            elif isinstance(dictionary[key], dict):
+                return self.get_config_item(dictionary[key], keys[1:])
+    
+        return None
+
     def modify_state_item(self, key, value):
         """
         Modifies a config item.
