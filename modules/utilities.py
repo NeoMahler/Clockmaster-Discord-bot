@@ -102,12 +102,18 @@ class UtilitiesCog(commands.Cog):
         if players != []: # Create a list of players only for the specified user
             for player in added_players:
                 if player in players:
-                    user = ctx.guild.get_member(int(player))
-                    data.append(self.sort_player_info(type, user))
+                    if len(player) == 6:
+                        data.append("DEBUG")
+                    else:
+                        user = ctx.guild.get_member(int(player))
+                        data.append(self.sort_player_info(type, user))
         else: # Create list for all players added to the game
             for player in added_players:
-                user = ctx.guild.get_member(int(player))
-                data.append(self.sort_player_info(type, user))
+                if len(player) == 6:
+                    data.append("DEBUG")
+                else:
+                    user = ctx.guild.get_member(int(player))
+                    data.append(self.sort_player_info(type, user))
         return data
     
     def sort_player_info(self, type, user):
