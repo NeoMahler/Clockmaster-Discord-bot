@@ -58,6 +58,7 @@ def setup_game_status():
 async def on_ready():
     config = load_config('config/bot_config.json')
     bot.config = config
+    bot.lang = config['language']
 
     if not os.path.exists("config/game_state.json"):
         print("No config/game_state.json file found. Creating one...")

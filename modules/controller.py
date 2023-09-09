@@ -22,7 +22,8 @@ class ControllerCog(commands.Cog):
             if scripts[script]["min_players"] <= player_num:
                 good_scripts.append(script)
         chosen_script = random.choice(good_scripts)
-        await ctx.send("Guió escollit: " + chosen_script)
+        script_name = scripts[chosen_script]["name"][self.bot.lang]
+        await ctx.send("Guió escollit: " + script_name)
 
         # Update game state
         if self.utilities.get_config_item("config/game_state.json", ['status']) == 'on':
