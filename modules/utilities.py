@@ -107,7 +107,6 @@ class UtilitiesCog(commands.Cog):
                 if len(player) == 6: # Ghost players have 6-digit IDs
                     data.append("DEBUG")
                 else:
-                    print(f"PLAYER {player}")
                     user = ctx.guild.get_member(int(player))
                     data.append(self.sort_player_info(type, user))
         return data
