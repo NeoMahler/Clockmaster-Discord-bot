@@ -34,6 +34,12 @@ class ControllerCog(commands.Cog):
         # Choose characters
         role_count = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/role_counts/{str(player_num)}")
         print(role_count)
+        chosen_roles = []
+        for team in role_count:
+            all_team_roles = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/{team}")
+            chosen_team_roles = random.sample(all_team_roles, k=role_count[team]) # random.sample makes sure there are no duplicates
+            chosen_roles.extend(chosen_team_roles)
+        print(chosen_roles)
 
         # TODO:
         # - choose characters (be mindful of player count for team proportions)
