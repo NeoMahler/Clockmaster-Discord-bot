@@ -134,5 +134,23 @@ class AdminCog(commands.Cog):
         self.utilities.modify_state_item('status', arg)
         await ctx.reply(f"Status del joc modificat a {arg}.")
 
+    @commands.command()
+    @commands.is_owner()
+    async def fgetrole(self, ctx, *arg):
+        """
+        Returns the role of the given player
+        """
+        if isinstance(arg, tuple):
+            player = " ".join(arg)
+        else:
+            player = arg
+        role = self.utilities.get_player_by_role(player)
+        await ctx.reply(f"{player} és {role}")
+        # try:
+        #     role = self.utilities.get_player_by_role(arg)
+        #     await ctx.reply(f"{arg} és {role}")
+        # except:
+        #     await ctx.reply("Has d'especificar un jugador vàlid!")
+
 def setup(bot):
     bot.add_cog(AdminCog(bot))

@@ -132,26 +132,38 @@ class UtilitiesCog(commands.Cog):
                 return user.nick
         elif type == "user":
             return user
-
-    def get_id_from_data(self, data, type):
+        
+    def get_id_from_data(self, data):
         """
-        Returns the ID of a player based on the given type.
-    
+        Returns the ID of a player based on the given data.
+
         Parameters:
-            data (list): The username, display_name, or nickname of a player.
-            type (str): The type of information represented in the data (username, display_name, or nickname).
-    
+            data (str): The data to match against the username, nickname, or display_name of a player.
+
         Returns:
             int: The ID of the player.
         """
         state = self.read_config_file("config/game_state.json")
         players = state["players"]
         for player_id, player_data in players.items():
-            if player_data[type] == data:
-                return int(player_id)
-    
-        return None  # Return None if player is not found    
+            for key, value in player_data.items():
+                if isinstance(value, str) and value.lower() == data.lower(): # .lower() is necessary because people type weird
+                    return int(player_id)
 
- 
+        try: # Handle direct mentions
+            player_id = data.replace("<@", "").replace(">", "")
+            return int(player_id)
+        except:
+            return None  # Return None if player is not found
+
+    def get_player_by_role(self, player):
+        """
+        Returns the player's role (str) based on their Discord ID
+        """
+        state = self.read_config_file("config/game_state.json")
+        player_id = self.get_id_from_data(player)
+        role = state["players"][str(player_id)]["game_info"]["role"]
+        return role
+
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))

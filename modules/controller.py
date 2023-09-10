@@ -55,7 +55,7 @@ class ControllerCog(commands.Cog):
         for player in players: # We got players earlier in the function
             assigned_role = random.choice(chosen_roles)
             chosen_roles.remove(assigned_role) # Avoid duplicates
-            player_id = self.utilities.get_id_from_data(player, "username")
+            player_id = self.utilities.get_id_from_data(player)
             self.utilities.modify_state_item(f"players/{player_id}/game_info/role", assigned_role)
 
             if player == "DEBUG":
