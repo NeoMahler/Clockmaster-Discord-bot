@@ -68,7 +68,7 @@ async def on_ready():
 
     # Changes our bots Playing Status. type=1(streaming) for a standard game you could remove type and url.
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='ominous music...'))
-    print(f'Successfully logged in and booted...!')
+    print(f'Successfully logged in and booted...!\n')
 
 load_dotenv()
 try:

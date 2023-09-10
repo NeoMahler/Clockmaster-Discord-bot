@@ -6,16 +6,16 @@ class ControllerCog(commands.Cog):
         self.bot = bot
         self.utilities = self.bot.get_cog("UtilitiesCog")
     
-    async def game_setup(self, ctx):
+    def choose_script(self, player_num: int):
         """
-        Sets up the game: gives out roles, demon bluffs, and goes to first night.
-        """
-        # Get player count
-        players = self.utilities.get_player_data(ctx, "username")
-        player_num = len(players)
-        print(f"Hi ha {player_num} jugadors.")
+        Returns a random script based on the player count.
 
-        # Choose script based on player count
+        Parameters:
+            player_num (int): The number of players
+        
+        Returns:
+            chosen script (str) and localized script name (str)
+        """
         good_scripts = []
         scripts = self.utilities.get_config_item("config/game_config.json", "scripts")
         for script in scripts:
@@ -23,25 +23,35 @@ class ControllerCog(commands.Cog):
                 good_scripts.append(script)
         chosen_script = random.choice(good_scripts)
         script_name = scripts[chosen_script]["name"][self.bot.lang]
-        await ctx.send("Guió escollit: " + script_name)
+        return chosen_script, script_name
+    
+    def choose_roles(self, chosen_script, player_num: int):
+        """
+        Choose roles that will be in play and returns them in a list.
 
-        # Update game state
-        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
-            channel = self.bot.get_channel(int(self.bot.config['game_channel']))
-            all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
-            await channel.send(f"{all_pings} Comença el joc!")
-
-        # Choose characters
+        Parameters:
+            chosen_script (str): The chosen script key
+            player_num (int): The number of players
+        """
         role_count = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/role_counts/{str(player_num)}")
-        print(f"Role counts: {str(role_count)}")
+        print(f"[DEBUG] Role counts: {str(role_count)}")
         chosen_roles = []
         for team in role_count:
             all_team_roles = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/{team}")
             chosen_team_roles = random.sample(all_team_roles, k=role_count[team]) # random.sample makes sure there are no duplicates
             chosen_roles.extend(chosen_team_roles)
-        print(f"Chosen roles: {', '.join(chosen_roles)}")
+        
+        return chosen_roles
 
-        # Assign roles to players
+    async def assign_roles(self, ctx, players, chosen_roles):
+        """
+        Randomly assigns a role to all players.
+
+        Parameters:
+            ctx (discord.ext.commands.Context): The context of the command.
+            players (list): A list of player usernanmes.
+            chosen_roles (list): A list of chosen roles.
+        """
         for player in players: # We got players earlier in the function
             assigned_role = random.choice(chosen_roles)
             chosen_roles.remove(assigned_role) # Avoid duplicates
@@ -49,11 +59,32 @@ class ControllerCog(commands.Cog):
             self.utilities.modify_state_item(f"players/{player_id}/game_info/role", assigned_role)
 
             if player == "DEBUG":
-                await ctx.send(f"Rol assignat a jugador fantasma {player_id}: **{assigned_role}**")
+                print(f"Rol assignat a jugador fantasma: {assigned_role}")
             else:
                 user = self.bot.get_user(int(player_id))
                 await user.send(f"T'he assignat el rol **{assigned_role}**!")
 
+    async def game_setup(self, ctx):
+        """
+        Sets up the game: gives out roles, demon bluffs, and goes to first night.
+        """
+        # Get player count and choose script
+        players = self.utilities.get_player_data(ctx, "username")
+        player_num = len(players)
+        print(f"[DEBUG] Hi ha {player_num} jugadors.")
+
+        chosen_script, script_name = self.choose_script(player_num)
+
+        # Announce game starts
+        if self.utilities.get_config_item("config/game_state.json", 'status') == 'on':
+            channel = self.bot.get_channel(int(self.bot.config['game_channel']))
+            all_pings = " ".join(self.utilities.get_player_data(ctx, "mention"))
+            await channel.send(f"{all_pings} Comença el joc amb el guió {script_name}!")
+
+        # Choose roles and assign them
+        chosen_roles = self.choose_roles(chosen_script, player_num)
+        print(f"[DEBUG] Chosen roles: {', '.join(chosen_roles)}")
+        await self.assign_roles(ctx, players, chosen_roles)
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))
