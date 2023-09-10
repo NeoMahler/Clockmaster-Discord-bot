@@ -156,9 +156,29 @@ class UtilitiesCog(commands.Cog):
         except:
             return None  # Return None if player is not found
 
-    def get_player_by_role(self, player):
+    def get_player_role(self, player):
         """
-        Returns the player's role (str) based on their Discord ID
+        Returns the player's role (str) based on their Discord ID. Always returns the real role of the user.
+        """
+        state = self.read_config_file("config/game_state.json")
+        player_id = self.get_id_from_data(player)
+        role = state["players"][str(player_id)]["game_info"]["role"]
+        return role
+    
+    def get_player_by_role(self, ctx, role):
+        """
+        Returns the player's Discord ID based on their role (str).
+        """
+        state = self.read_config_file("config/game_state.json")
+        players = state["players"]
+        for player_id, player_data in players.items():
+            if player_data["game_info"]["role"] == role:
+                player = self.get_player_data(ctx, "nickname", [str(player_id)])
+                return player[0]
+
+    def get_player_team(self, player):
+        """
+        Returns the player's team (str) based on their Discord ID. Always returns the real team of the user.
         """
         state = self.read_config_file("config/game_state.json")
         player_id = self.get_id_from_data(player)

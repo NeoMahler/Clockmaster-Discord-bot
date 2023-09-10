@@ -145,10 +145,22 @@ class AdminCog(commands.Cog):
                 player = " ".join(arg)
             else:
                 player = arg
-            role = self.utilities.get_player_by_role(player)
+            role = self.utilities.get_player_role(player)
             await ctx.reply(f"{player} és {role}")
         except:
             await ctx.reply("Has d'especificar un jugador vàlid!")
+
+    @commands.command()
+    @commands.is_owner()
+    async def fgetplayerbyrole(self, ctx, arg):
+        """
+        Returns the player ID of the given role
+        """
+        try:
+            player = self.utilities.get_player_by_role(ctx, arg)
+            await ctx.reply(f"{arg} és {player}")
+        except:
+            await ctx.reply("Has d'especificar un rol vàlid!")
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))
