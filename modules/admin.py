@@ -112,9 +112,9 @@ class AdminCog(commands.Cog):
         random_id = random.randint(111111, 999999)
         state = self.utilities.read_config_file("config/game_state.json")
         state['players'][str(random_id)] = {}
-        state['players'][str(random_id)]["username"] = "DEBUG"
-        state['players'][str(random_id)]["nickname"] = "DEBUG"
-        state['players'][str(random_id)]["display_name"] = "DEBUG"
+        state['players'][str(random_id)]["username"] = f"DEBUG{random_id}"
+        state['players'][str(random_id)]["nickname"] = f"DEBUG{random_id}"
+        state['players'][str(random_id)]["display_name"] = f"DEBUG{random_id}"
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
 
@@ -177,6 +177,18 @@ class AdminCog(commands.Cog):
             await ctx.reply(f"{player} és {team}")
         except:
             await ctx.reply("Has d'especificar un jugador vàlid!")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def fgetteam(self, ctx, arg):
+        """
+        Returns the members of the given team
+        """
+        try:
+            players = self.utilities.get_players_in_team(ctx, arg)
+            await ctx.reply(f"Els membres de l'equip {arg} són {', '.join(players)}")
+        except:
+            await ctx.reply("Has d'especificar un equip vàlid: `village`, `outsider`, `minion`, `demon`.")
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))

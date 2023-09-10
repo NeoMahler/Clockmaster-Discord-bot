@@ -63,8 +63,11 @@ class UtilitiesCog(commands.Cog):
         state = self.read_config_file("config/game_state.json")
         state['players'][str(player.id)] = {}
         state['players'][str(player.id)]["username"] = player.name
-        state['players'][str(player.id)]["nickname"] = player.nick
         state['players'][str(player.id)]["display_name"] = player.display_name
+        try:
+            state['players'][str(player.id)]["nickname"] = player.nick
+        except AttributeError:
+            state['players'][str(player.id)]["nickname"] = player.display_name
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return
@@ -153,7 +156,8 @@ class UtilitiesCog(commands.Cog):
         try: # Handle direct mentions
             player_id = data.replace("<@", "").replace(">", "")
             return int(player_id)
-        except:
+        except Exception as e:
+            print(f"[ERROR] Exception occurred: {str(e)}")
             return None  # Return None if player is not found
 
     def get_player_role(self, player):
@@ -190,6 +194,17 @@ class UtilitiesCog(commands.Cog):
             return "minion"
         elif "is_demon" in role_flags:
             return "demon"
+        
+    def get_players_in_team(self, ctx, team):
+        """
+        Returns a list of all players in the given team.
+        """
+        players_in_team = []
+        for player in self.read_config_file("config/game_state.json")["players"]:
+            if self.get_player_team(player) == team:
+                user = self.get_player_data(ctx, "nickname", [str(player)])
+                players_in_team.append(user[0])
+        return players_in_team
 
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
