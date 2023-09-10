@@ -180,10 +180,16 @@ class UtilitiesCog(commands.Cog):
         """
         Returns the player's team (str) based on their Discord ID. Always returns the real team of the user.
         """
-        state = self.read_config_file("config/game_state.json")
-        player_id = self.get_id_from_data(player)
-        role = state["players"][str(player_id)]["game_info"]["role"]
-        return role
+        role = self.get_player_role(player)
+        role_flags = self.get_config_item("config/game_config.json", f"roles/{role}/flags")
+        if "is_village" in role_flags:
+            return "village"
+        elif "is_outsider" in role_flags:
+            return "outsider"
+        elif "is_minion" in role_flags:
+            return "minion"
+        elif "is_demon" in role_flags:
+            return "demon"
 
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))

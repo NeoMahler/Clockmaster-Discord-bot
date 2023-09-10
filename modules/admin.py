@@ -162,5 +162,21 @@ class AdminCog(commands.Cog):
         except:
             await ctx.reply("Has d'especificar un rol vàlid!")
 
+    @commands.command()
+    @commands.is_owner()
+    async def fgetteam(self, ctx, *arg):
+        """
+        Returns the team of the given player
+        """
+        try:
+            if isinstance(arg, tuple):
+                player = " ".join(arg)
+            else:
+                player = arg
+            team = self.utilities.get_player_team(player)
+            await ctx.reply(f"{player} és {team}")
+        except:
+            await ctx.reply("Has d'especificar un jugador vàlid!")
+
 def setup(bot):
     bot.add_cog(AdminCog(bot))
