@@ -25,7 +25,7 @@ class ControllerCog(commands.Cog):
         script_name = scripts[chosen_script]["name"][self.bot.lang]
         return chosen_script, script_name
     
-    def choose_roles(self, chosen_script, player_num: int):
+    def choose_roles(self, chosen_script, player_num: int, bluffs=False):
         """
         Choose roles that will be in play and returns them in a list.
 
@@ -33,8 +33,12 @@ class ControllerCog(commands.Cog):
             chosen_script (str): The chosen script key
             player_num (int): The number of players
         """
-        role_count = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/role_counts/{str(player_num)}")
-        print(f"[DEBUG] Role counts: {str(role_count)}")
+        if bluffs:
+            print(f"[DEBUG] Choosing bluffs")
+            role_count = {"townsfolk": 2, "outsiders": 1}
+        else:
+            role_count = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/role_counts/{str(player_num)}")
+            print(f"[DEBUG] Role counts: {str(role_count)}")
         chosen_roles = []
         for team in role_count:
             all_team_roles = self.utilities.get_config_item("config/game_config.json", f"scripts/{chosen_script}/{team}")
@@ -90,6 +94,11 @@ class ControllerCog(commands.Cog):
         chosen_roles = self.choose_roles(chosen_script, player_num)
         print(f"[DEBUG] Chosen roles: {', '.join(chosen_roles)}")
         await self.assign_roles(ctx, players, chosen_roles)
+
+        # Choose bluffs
+        bluff_roles = self.choose_roles(chosen_script, player_num, bluffs=True)
+        print(f"[DEBUG] Bluff roles: {', '.join(bluff_roles)}")
+        self.utilities.modify_state_item("demon_bluffs", bluff_roles)
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))
