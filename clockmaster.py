@@ -27,11 +27,12 @@ def get_prefix(bot, message):
 
 
 # Modules to be loaded, following the folder.file format
-initial_extensions = ['modules.utilities',
+initial_extensions = ['modules.bot_admin',
+                      'modules.utilities',
                       'modules.controller',
                       'modules.tools',
                       'modules.pregame',
-                      'modules.admin'
+                      'modules.game_admin'
                       ]
 
 intents = discord.Intents(messages=True, message_content=True, members=True, guilds=True)
