@@ -41,8 +41,19 @@ class ControllerCog(commands.Cog):
             chosen_roles.extend(chosen_team_roles)
         print(f"Chosen roles: {', '.join(chosen_roles)}")
 
-        # TODO:
-        # - give out characters
+        # Assign roles to players
+        for player in players: # We got players earlier in the function
+            assigned_role = random.choice(chosen_roles)
+            chosen_roles.remove(assigned_role) # Avoid duplicates
+            player_id = self.utilities.get_id_from_data(player, "username")
+            self.utilities.modify_state_item(f"players/{player_id}/game_info/role", assigned_role)
+
+            if player == "DEBUG":
+                await ctx.send(f"Rol assignat a jugador fantasma {player_id}: **{assigned_role}**")
+            else:
+                user = self.bot.get_user(int(player_id))
+                await user.send(f"T'he assignat el rol **{assigned_role}**!")
+
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))

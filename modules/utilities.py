@@ -49,7 +49,7 @@ class UtilitiesCog(commands.Cog):
             value (str): The new value of the config item.
         """
         state = self.read_config_file("config/game_state.json")
-        state[key] = value
+        dpath.new(state, key, value)
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
 
@@ -130,6 +130,8 @@ class UtilitiesCog(commands.Cog):
                 return user.display_name
             else:
                 return user.nick
+        elif type == "user":
+            return user
 
     def get_id_from_data(self, data, type):
         """
@@ -137,14 +139,13 @@ class UtilitiesCog(commands.Cog):
     
         Parameters:
             data (list): The username, display_name, or nickname of a player.
-            type (str): The type of information to sort that data is.
+            type (str): The type of information represented in the data (username, display_name, or nickname).
     
         Returns:
             int: The ID of the player.
         """
         state = self.read_config_file("config/game_state.json")
         players = state["players"]
-        print(players.items())
         for player_id, player_data in players.items():
             if player_data[type] == data:
                 return int(player_id)
