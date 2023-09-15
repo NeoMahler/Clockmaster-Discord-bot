@@ -107,6 +107,7 @@ class ControllerCog(commands.Cog):
         # Go to first night
         roles = self.utilities.roles_in_play()
         await self.night.process_night(ctx, roles, script, first_night = True)
+        
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))

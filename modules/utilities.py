@@ -10,7 +10,7 @@ class UtilitiesCog(commands.Cog):
         """
         Cleans the game_state.json file.
         """
-        starting_dictionary = {"players": {}, "day": {}, "night": {}, "status": "off"}
+        starting_dictionary = {"players": {}, "day": {"flags": []}, "night": {"flags": []}, "status": "off"}
         with open("config/game_state.json", 'w') as f:
             json.dump(starting_dictionary, f)
 
@@ -52,7 +52,48 @@ class UtilitiesCog(commands.Cog):
         dpath.new(state, key, value)
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
+    
+    def edit_flags(self, type, flags):
+        """
+        Edits flags from players, day or night. It can edit multiple flags at once.
 
+        Parameters:
+            type (str): can be the ID of a player, "day", or "night".
+            flags (list): A list of flags to edit. Use + in front of the flag to add it, - to remove it.
+        """
+        current_flags = self.get_flags(type)
+
+        if type in ["day", "night"]: # It's a player
+            path = f"{type}/flags"
+        else:
+            path = f"players/{type}/game_info/flags"
+        
+        for flag in flags:
+            if flag.startswith('-'):
+                current_flags.remove(flag[1:])
+            elif flag.startswith('+'):
+                current_flags.append(flag[1:])
+        
+        self.modify_state_item(path, current_flags)
+
+    def get_flags(self, type):
+        """
+        Returns a list of flags from players, day or night.
+
+        Parameters:
+            type (str): can be the ID of a player, "day", or "night".
+        """
+        if not type in ["day", "night"]: # It's a player
+            all_players = self.get_config_item("config/game_state.json", "players")
+            if not type in all_players:
+                print(f"[ERROR] Couldn't get player {type} when attempting to view their flags. Use an ID instead")
+                return
+            current_flags = self.get_config_item("config/game_state.json", f"players/{type}/game_info/flags")
+        else:
+            current_flags = self.get_config_item("config/game_state.json", f"{type}/flags")
+
+        return current_flags
+    
     def add_player(self, player):
         """
         Adds a player to the game. It includes the user ID, username, and server-specific nickname.
@@ -68,6 +109,7 @@ class UtilitiesCog(commands.Cog):
             state['players'][str(player.id)]["nickname"] = player.nick
         except AttributeError:
             state['players'][str(player.id)]["nickname"] = player.display_name
+        state['players'][str(player.id)]["game_info"] = {"role": "", "flags": []}
         with open("config/game_state.json", 'w') as f:
             json.dump(state, f)
         return

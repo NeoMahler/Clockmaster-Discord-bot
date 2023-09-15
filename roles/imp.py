@@ -5,11 +5,11 @@ class ImpCog(commands.Cog):
         self.bot = bot
 
     async def first_night(self, ctx):
-        input("First night!")
+        print("First night!")
         return
 
     async def night(self, ctx):
-        input("Regular night!")
+        print("Regular night!")
         return
 
 def setup(bot):

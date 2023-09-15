@@ -6,6 +6,9 @@ class NightCog(commands.Cog):
         self.utilities = self.bot.get_cog("UtilitiesCog")
     
     async def process_night(self, ctx, roles, script, first_night = False):
+        # TODO:
+        # - Remove day.is_active, day.has_executions, and day.after_nominations flags
+        # - Add night.is_active flag
         if first_night:
             night_order = self.utilities.order_roles(script, roles, first_night=True)
             print("[DEBUG] Beginning first night")

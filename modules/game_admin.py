@@ -139,6 +139,26 @@ class GameAdminCog(commands.Cog):
         first_night = self.utilities.order_roles("troublebrewing", roles, first_night=True)
         second_night = self.utilities.order_roles("troublebrewing", roles, first_night=False)
         await ctx.reply(f"Rols en joc: {', '.join(roles)}\nOrdre de la primera: {', '.join(first_night)}\nOrdre general nocturn: {', '.join(second_night)}")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def fgetflags(self, ctx, arg):
+        """
+        Returns a list of flags
+        """
+        flags = self.utilities.get_flags(arg)
+        await ctx.reply(f"Flags of {arg}: {', '.join(flags)}")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def feditflags(self, ctx, *arg):
+        """
+        Modifies flags for a player, day, or night
+        """
+        type = arg[0]
+        flags = arg[1].split(",")
+        self.utilities.edit_flags(type, flags)
+        await ctx.reply("Fet!")
 
 def setup(bot):
     bot.add_cog(GameAdminCog(bot))
