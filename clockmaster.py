@@ -29,6 +29,8 @@ def get_prefix(bot, message):
 # Modules to be loaded, following the folder.file format
 initial_extensions = ['modules.bot_admin',
                       'modules.utilities',
+                      'modules.day',
+                      'modules.night',
                       'modules.controller',
                       'modules.tools',
                       'modules.pregame',
@@ -42,6 +44,10 @@ bot.remove_command('help')
 
 # Here we load our extensions(cogs) listed above in [initial_extensions].
 if __name__ == '__main__':
+    for role in os.listdir("./roles"):  # Import all roles
+        if role.endswith(".py"):
+            bot.load_extension(f"roles.{role[:-3]}")
+
     for extension in initial_extensions:
         bot.load_extension(extension)
 
