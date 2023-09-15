@@ -211,12 +211,26 @@ class UtilitiesCog(commands.Cog):
         Returns a list of all roles in play in the current game.
         """
         roles_in_play = []
-        
+
         for player in self.read_config_file("config/game_state.json")["players"]:
             role = self.get_player_role(player)
             roles_in_play.append(role)
         
         return roles_in_play
+
+    def order_roles(self, script, roles, first_night = True):
+        """
+        Returns the list provided as 'roles' ordered according to the script's night order.
+        If first night, use first_night=True.
+        """
+        if first_night:
+            role_order = self.get_config_item("config/game_config.json", f"scripts/{script}/first_night_order")
+        else:
+            role_order = self.get_config_item("config/game_config.json", f"scripts/{script}/general_night_order")
+        
+        ordered_list = [item for item in role_order if item in roles]
+        print(ordered_list)
+        return ordered_list
 
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))

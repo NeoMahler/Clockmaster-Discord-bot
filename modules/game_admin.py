@@ -129,5 +129,16 @@ class GameAdminCog(commands.Cog):
         except:
             await ctx.reply("Has d'especificar un equip vàlid: `village`, `outsider`, `minion`, `demon`.")
 
+    @commands.command()
+    @commands.is_owner()
+    async def fgetroles(self, ctx):
+        """
+        Returns list of all roles in play as well as their night order.
+        """
+        roles = self.utilities.roles_in_play()
+        first_night = self.utilities.order_roles("troublebrewing", roles, first_night=True)
+        second_night = self.utilities.order_roles("troublebrewing", roles, first_night=False)
+        await ctx.reply(f"Rols en joc: {', '.join(roles)}\nOrdre de la primera: {', '.join(first_night)}\nOrdre general nocturn: {', '.join(second_night)}")
+
 def setup(bot):
     bot.add_cog(GameAdminCog(bot))
