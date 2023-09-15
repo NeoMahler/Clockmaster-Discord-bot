@@ -226,7 +226,9 @@
                     "minions": 3,
                     "demons": 1
                 }
-            }
+            },
+            "first_night_order": ["minion_info", "demon_info", "poisoner", "spy", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "butler"],
+            "general_night_order": ["poisoner", "monk", "spy", "scarletwoman", "imp", "ravenkeeper", "undertaker", "empath", "fortuneteller", "butler"]
         }
     }
 }
