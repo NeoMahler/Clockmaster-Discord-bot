@@ -205,6 +205,18 @@ class UtilitiesCog(commands.Cog):
                 user = self.get_player_data(ctx, "nickname", [str(player)])
                 players_in_team.append(user[0])
         return players_in_team
+    
+    def roles_in_play(self):
+        """
+        Returns a list of all roles in play in the current game.
+        """
+        roles_in_play = []
+        
+        for player in self.read_config_file("config/game_state.json")["players"]:
+            role = self.get_player_role(player)
+            roles_in_play.append(role)
+        
+        return roles_in_play
 
 def setup(bot):
     bot.add_cog(UtilitiesCog(bot))
