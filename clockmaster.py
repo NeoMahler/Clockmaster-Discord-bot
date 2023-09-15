@@ -29,7 +29,6 @@ def get_prefix(bot, message):
 # Modules to be loaded, following the folder.file format
 initial_extensions = ['modules.bot_admin',
                       'modules.utilities',
-                      'modules.day',
                       'modules.night',
                       'modules.controller',
                       'modules.tools',
