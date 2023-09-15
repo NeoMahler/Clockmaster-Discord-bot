@@ -5,6 +5,7 @@ class ControllerCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.utilities = self.bot.get_cog("UtilitiesCog")
+        self.night = self.bot.get_cog("NightCog")
     
     def choose_script(self, player_num: int):
         """
@@ -99,6 +100,12 @@ class ControllerCog(commands.Cog):
         bluff_roles = self.choose_roles(chosen_script, player_num, bluffs=True)
         print(f"[DEBUG] Bluff roles: {', '.join(bluff_roles)}")
         self.utilities.modify_state_item("demon_bluffs", bluff_roles)
+
+        await self.game_controller(self, ctx)
+
+    async def game_controller(self, ctx):
+        # Go to first night
+        await self.night.process_night(ctx, first = True)
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))
