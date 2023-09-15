@@ -101,11 +101,12 @@ class ControllerCog(commands.Cog):
         print(f"[DEBUG] Bluff roles: {', '.join(bluff_roles)}")
         self.utilities.modify_state_item("demon_bluffs", bluff_roles)
 
-        await self.game_controller(self, ctx)
+        await self.game_controller(ctx, chosen_script)
 
-    async def game_controller(self, ctx):
+    async def game_controller(self, ctx, script):
         # Go to first night
-        await self.night.process_night(ctx, first = True)
+        roles = self.utilities.roles_in_play()
+        await self.night.process_night(ctx, roles, script, first_night = True)
 
 def setup(bot):
     bot.add_cog(ControllerCog(bot))

@@ -229,7 +229,6 @@ class UtilitiesCog(commands.Cog):
             role_order = self.get_config_item("config/game_config.json", f"scripts/{script}/general_night_order")
         
         ordered_list = [item for item in role_order if item in roles]
-        print(ordered_list)
         return ordered_list
 
 def setup(bot):
