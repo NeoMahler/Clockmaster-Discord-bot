@@ -1,3 +1,5 @@
+**Note: this project is discontinued, at least for now. The bot is not functional, but I'm leaving it up in case anyone finds it and wants to use it as a base for their own bot!**
+
 # This is work in progress—the bot doesn't currently work yet!
 
 Clockmaster is a Discord bot that acts as an automatic storyteller for the [Blood on the Clocktower](<https://bloodontheclocktower.com/>) social deduction game. It handles everything for either text or voice-based games (the bot's instructions will always be text-based).
